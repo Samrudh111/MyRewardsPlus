@@ -17,7 +17,7 @@ struct SignInView: View {
     var body: some View {
         NavigationStack {
             VStack(spacing: 16) {
-                Text("Road Rewards").font(.largeTitle).bold()
+                Text("SignIn").font(.largeTitle).bold()
 
                 TextField("Email", text: $email)
                     .textInputAutocapitalization(.never)
@@ -76,7 +76,7 @@ struct SignInView: View {
                 Spacer()
             }
             .padding()
-            .navigationTitle("Welcome")
+            .navigationTitle("My Rewards+")
         }
     }
 

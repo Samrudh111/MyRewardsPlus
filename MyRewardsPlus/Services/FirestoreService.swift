@@ -18,10 +18,6 @@ protocol FirestoreServiceType {
 final class FirestoreService: FirestoreServiceType {
     private let db = Firestore.firestore()
 
-    // MARK: - Offers
-
-    /// Expects a collection "offers" with fields:
-    /// title:String, detail:String, pointsBonus:Number, expiresOn:Timestamp
     func fetchOffers() async throws -> [Offer] {
         let snapshot = try await db.collection("offers").getDocuments()
         var results: [Offer] = []
@@ -51,33 +47,29 @@ final class FirestoreService: FirestoreServiceType {
         return results
     }
 
-    // MARK: - Saved Offers (users/{uid}.savedOffers: [String UUIDs])
-
     func fetchSavedOfferIds(userId: String) async throws -> Set<UUID> {
-        let ref = db.collection("users").document(userId)
-        let doc = try await ref.getDocument()
-        guard let arr = doc.data()?["savedOffers"] as? [String] else { return [] }
-        return Set(arr.compactMap(UUID.init(uuidString:)))
-    }
+            let ref = db.collection("users").document(userId)
+            let doc = try await ref.getDocument()
+            let arr = (doc.data()?["savedOffers"] as? [String]) ?? []
+            return Set(arr.compactMap(UUID.init(uuidString:)))
+        }
 
-    /// Atomically add/remove the offer ID using arrayUnion/arrayRemove, then return the final set.
+        /// Atomic add/remove using arrayUnion/arrayRemove; returns final set.
     func toggleSavedOffer(userId: String, offerId: UUID) async throws -> Set<UUID> {
         let ref = db.collection("users").document(userId)
-        let idStr = offerId.uuidString
+        let id = offerId.uuidString
 
-        // Read current state to decide add/remove
+        // Read current to decide add/remove
         let snap = try await ref.getDocument()
         let current = (snap.data()?["savedOffers"] as? [String]) ?? []
 
-        if current.contains(idStr) {
-            // Remove
-            try await ref.setData(["savedOffers": FieldValue.arrayRemove([idStr])], merge: true)
+        if current.contains(id) {
+            try await ref.setData(["savedOffers": FieldValue.arrayRemove([id])], merge: true)
         } else {
-            // Add
-            try await ref.setData(["savedOffers": FieldValue.arrayUnion([idStr])], merge: true)
+            try await ref.setData(["savedOffers": FieldValue.arrayUnion([id])], merge: true)
         }
 
-        // Read back and return as Set<UUID>
+        // Read back final
         let newSnap = try await ref.getDocument()
         let finalArr = (newSnap.data()?["savedOffers"] as? [String]) ?? []
         return Set(finalArr.compactMap(UUID.init(uuidString:)))

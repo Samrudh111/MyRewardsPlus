@@ -22,22 +22,32 @@ final class AppState: ObservableObject {
 
     init() {
         // Forward saved-offers changes for tab badge (optional)
+        savedOffersCount = savedOffers.count
         savedOffers.objectWillChange
             .sink { [weak self] _ in
                 self?.savedOffersCount = self?.savedOffers.count ?? 0
                 self?.objectWillChange.send()
             }
             .store(in: &cancellables)
-        savedOffersCount = savedOffers.count
 
         // Listen to Firebase auth state
         auth.listen { [weak self] uid in
-            Task { @MainActor in self?.userId = uid }
+                    Task { @MainActor in
+                        self?.userId = uid
+                        if let uid {
+                            await self?.savedOffers.syncFromRemote(userId: uid)
+                            self?.savedOffersCount = self?.savedOffers.count ?? 0
+                        }
+                    }
         }
     }
 
-    // Convenience for OfferRow buttons (local only in this simple setup)
+    // Convenience for OfferRow buttons
     func toggleSavedOffer(_ id: UUID) {
-        savedOffers.toggle(id)
+            if let uid = userId {
+                Task { await savedOffers.toggleRemote(userId: uid, offerId: id) }
+            } else {
+                savedOffers.toggle(id)
+            }
     }
 }
