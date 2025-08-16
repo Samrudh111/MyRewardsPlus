@@ -49,6 +49,7 @@ struct HomeView: View {
             }
             .navigationTitle("Road Rewards")
             .task { await vm.load() }
+            .background(AppTheme.grayBG.ignoresSafeArea())
         }
     }
 }

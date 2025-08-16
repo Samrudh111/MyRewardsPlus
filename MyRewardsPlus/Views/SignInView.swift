@@ -41,6 +41,7 @@ struct SignInView: View {
                     Text(isLoading ? "Signing in…" : "Sign In")
                         .frame(maxWidth: .infinity)
                 }
+                .buttonStyle(PrimaryButtonStyle())
                 .rrBorderedProminent()
                 .disabled(isLoading)
 
@@ -50,6 +51,7 @@ struct SignInView: View {
                     Text("Create Account")
                         .frame(maxWidth: .infinity)
                 }
+                .buttonStyle(SecondaryButtonStyle())
                 .rrBordered()
                 .disabled(isLoading)
 
@@ -68,6 +70,7 @@ struct SignInView: View {
                     Label("Continue as Guest", systemImage: "person.crop.circle.badge.questionmark")
                         .frame(maxWidth: .infinity)
                 }
+                .buttonStyle(SecondaryButtonStyle())
                 .rrBordered()
 
                 Spacer()

@@ -51,6 +51,7 @@ struct AccountView: View {
             .sheet(isPresented: $showQR) {
                 LoyaltyCodeSheet(code: appState.account.loyaltyNumber)
             }
+            .background(AppTheme.grayBG.ignoresSafeArea())
         }
     }
 

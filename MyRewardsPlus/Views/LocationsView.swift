@@ -20,11 +20,19 @@ struct LocationsView: View {
             }
             .overlay(alignment: .topTrailing) {
                 VStack(spacing: 8) {
-                    Button { zoomToUser() } label: { Image(systemName: "location.fill") }
-                        .buttonStyle(.borderedProminent)
-                    Button { Task { await vm.search(center: vm.region.center) } } label: { Image(systemName: "magnifyingglass") }
-                        .buttonStyle(.bordered)
-                }.padding()
+                    Button { zoomToUser() } label: {
+                        Image(systemName: "location.fill").padding(10)
+                    }.background(.white, in: Circle())
+                     .overlay(Circle().stroke(AppTheme.cardStroke))
+                     .foregroundColor(AppTheme.red)
+
+                    Button { Task { await vm.search(center: vm.region.center) } } label: {
+                        Image(systemName: "magnifyingglass").padding(10)
+                    }.background(.white, in: Circle())
+                     .overlay(Circle().stroke(AppTheme.cardStroke))
+                     .foregroundColor(AppTheme.red)
+                }
+                .padding()
             }
             .navigationTitle("Find Locations")
             .task {
@@ -35,6 +43,7 @@ struct LocationsView: View {
                 guard let c = new else { return }
                 withAnimation { vm.region.center = c }
             }
+            .background(AppTheme.grayBG.ignoresSafeArea())
         }
     }
 

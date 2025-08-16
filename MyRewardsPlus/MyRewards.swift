@@ -14,6 +14,8 @@ struct MyRewards: App {
         WindowGroup {
             AppEntryView()
                 .environmentObject(appState)
+                .tint(AppTheme.red)
+                .background(AppTheme.grayBG)
         }
     }
 }

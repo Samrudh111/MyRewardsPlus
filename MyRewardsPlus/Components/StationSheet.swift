@@ -12,11 +12,11 @@ struct StationSheet: View {
             HStack { Text(station.name).font(.title2).bold(); Spacer() }
             Text(station.address).foregroundStyle(.secondary)
             HStack {
-                if let gas = station.gasPrice { Tag("Gas $\(String(format: "%.2f", gas))") }
-                if let diesel = station.dieselPrice { Tag("Diesel $\(String(format: "%.2f", diesel))") }
+                if let gas = station.gasPrice { Tag(text: "Gas $\(String(format: "%.2f", gas))") }
+                if let diesel = station.dieselPrice { Tag(text: "Diesel $\(String(format: "%.2f", diesel))") }
             }
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 80), spacing: 8)], spacing: 8) {
-                ForEach(station.amenities, id: \.self) { Tag($0.rawValue) }
+                ForEach(station.amenities, id: \.self) { Tag(text: $0.rawValue) }
             }
             Button {
                 // Navigate or start fuel pay flow

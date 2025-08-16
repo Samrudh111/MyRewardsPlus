@@ -14,7 +14,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		BC1EF4392E4AC951005CF503 /* MyRewardsPlus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = MyRewardsPlus.app; path = "/Users/samrudhs/Documents/xcode_apps/MyRewardsPlus/build/Debug-iphoneos/MyRewardsPlus.app"; sourceTree = "<absolute>"; };
+		BC7607A62E5023CE008616F1 /* MyRewardsPlus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyRewardsPlus.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -44,6 +44,7 @@
 			isa = PBXGroup;
 			children = (
 				BC1EF43B2E4AC951005CF503 /* MyRewardsPlus */,
+				BC7607A62E5023CE008616F1 /* MyRewardsPlus.app */,
 			);
 			sourceTree = "<group>";
 		};
@@ -73,7 +74,7 @@
 				BCDC7D072E4FB67800D32D5E /* FirebaseFirestoreCombine-Community */,
 			);
 			productName = MyRewardsPlus;
-			productReference = BC1EF4392E4AC951005CF503 /* MyRewardsPlus.app */;
+			productReference = BC7607A62E5023CE008616F1 /* MyRewardsPlus.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */

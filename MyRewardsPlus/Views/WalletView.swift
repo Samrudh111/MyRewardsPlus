@@ -48,6 +48,7 @@ struct WalletView: View {
                 offers = (try? await service.fetchOffers()) ?? []
                 loading = false
             }
+            .background(AppTheme.grayBG.ignoresSafeArea())
         }
     }
 }

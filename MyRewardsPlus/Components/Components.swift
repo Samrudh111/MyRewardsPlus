@@ -18,7 +18,8 @@ struct PointsCard: View {
                 Spacer()
                 Text(tier)
                     .padding(.horizontal, 12).padding(.vertical, 6)
-                    .background(.ultraThinMaterial, in: Capsule())
+                    .background(AppTheme.yellow, in: Capsule())
+                    .foregroundColor(AppTheme.ink)
             }
             Text("Reward Points").foregroundStyle(.secondary)
             ProgressView(value: progress)
@@ -34,6 +35,9 @@ struct PointsCard: View {
         )
         .clipShape(RoundedRectangle(cornerRadius: 20))
         .overlay(RoundedRectangle(cornerRadius: 20).strokeBorder(.quaternary))
+        .background(AppTheme.heroGradient)
+        .foregroundColor(.white)
+        .overlay(RoundedRectangle(cornerRadius: 20).stroke(AppTheme.cardStroke))
     }
 }
 
@@ -41,17 +45,19 @@ struct ExpiringPointsBanner: View {
     var expiring: Int
     var body: some View {
         HStack {
-            Image(systemName: "hourglass.circle.fill").font(.title2)
+            Image(systemName: "hourglass.circle.fill")
+                .foregroundColor(AppTheme.yellow)
             VStack(alignment: .leading) {
                 Text("\(expiring) pts expiring soon").bold()
                 Text("Redeem them before month end.").font(.subheadline).foregroundStyle(.secondary)
             }
             Spacer()
             Button("Redeem") { }
-                .buttonStyle(.borderedProminent)
+                .buttonStyle(PrimaryButtonStyle())
         }
         .padding(14)
-        .background(.thinMaterial, in: RoundedRectangle(cornerRadius: 16))
+        .background(.white, in: RoundedRectangle(cornerRadius: 16))
+        .overlay(RoundedRectangle(cornerRadius: 16).stroke(AppTheme.cardStroke))
     }
 }
 
@@ -62,7 +68,11 @@ struct OfferRow: View {
 
     var body: some View {
         HStack(alignment: .top, spacing: 12) {
-            Image(systemName: "gift.fill").font(.title2)
+            ZStack{
+                Circle().fill(AppTheme.yellow)
+                Image(systemName: "gift.fill").foregroundColor(AppTheme.ink)
+            }
+            .frame(width: 36, height: 36)
             VStack(alignment: .leading, spacing: 4) {
                 Text(offer.title).bold()
                 Text(offer.detail).foregroundStyle(.secondary)
@@ -75,7 +85,8 @@ struct OfferRow: View {
                 .rrBordered()
         }
         .padding(12)
-        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 14))
+        .background(.white, in: RoundedRectangle(cornerRadius: 14))
+        .overlay(RoundedRectangle(cornerRadius: 14).stroke(AppTheme.cardStroke))
     }
 }
 
@@ -83,26 +94,28 @@ struct StationPin: View {
     var station: Station
     var body: some View {
         VStack(spacing: 4) {
-            Image(systemName: "mappin.circle.fill").font(.title)
+            Image(systemName: "mappin.circle.fill")
+                .font(.title)
+                .foregroundColor(AppTheme.red)
+                .shadow(radius: 1, y: 1)
             Text(station.name).font(.caption2).lineLimit(1)
         }
         .padding(6)
-        .background(.thinMaterial, in: Capsule())
+        .background(.white, in: Capsule())
+        .overlay(Capsule().stroke(AppTheme.cardStroke))
     }
 }
 
 struct Tag: View {
     var text: String
-    init(_ t: String) { text = t }
     var body: some View {
         Text(text)
             .font(.caption)
-            .padding(.vertical, 4)
-            .padding(.horizontal, 8)
-            .background(.ultraThinMaterial, in: Capsule())
+            .padding(.vertical, 4).padding(.horizontal, 10)
+            .foregroundColor(AppTheme.ink)
+            .background(AppTheme.yellow.opacity(0.35), in: Capsule())
     }
 }
-
 struct AvatarCircle: View {
     var initials: String
     var body: some View {
