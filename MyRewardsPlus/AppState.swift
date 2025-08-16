@@ -14,14 +14,12 @@ final class AppState: ObservableObject {
     @Published var userId: String? = nil
     let auth: AuthServiceType = AuthService()
 
-    // If you already have SavedOffersStore, keep it:
     let savedOffers = SavedOffersStore()
     @Published private(set) var savedOffersCount: Int = 0
 
     private var cancellables = Set<AnyCancellable>()
 
     init() {
-        // Forward saved-offers changes for tab badge (optional)
         savedOffersCount = savedOffers.count
         savedOffers.objectWillChange
             .sink { [weak self] _ in
@@ -42,7 +40,6 @@ final class AppState: ObservableObject {
         }
     }
 
-    // Convenience for OfferRow buttons
     func toggleSavedOffer(_ id: UUID) {
             if let uid = userId {
                 Task { await savedOffers.toggleRemote(userId: uid, offerId: id) }

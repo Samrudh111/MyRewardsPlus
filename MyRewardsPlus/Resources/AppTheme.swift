@@ -9,11 +9,11 @@ import SwiftUI
 
 enum AppTheme {
     // Brand-inspired palette
-    static let red       = Color(red: 0.78, green: 0.06, blue: 0.18)   // ≈ #C8102E
+    static let red       = Color(red: 0.78, green: 0.06, blue: 0.18)
     static let redDark   = Color(red: 0.63, green: 0.04, blue: 0.14)
-    static let yellow    = Color(red: 1.00, green: 0.76, blue: 0.06)   // ≈ #FFC20E
+    static let yellow    = Color(red: 1.00, green: 0.76, blue: 0.06)
     static let ink       = Color(red: 0.11, green: 0.11, blue: 0.12)   // near-black for text
-    static let grayBG    = Color(white: 0.96)                          // app background
+    static let grayBG    = Color(white: 0.96)
     static let cardStroke = Color.black.opacity(0.06)
 
     // Gradients for hero/headers if desired

@@ -9,7 +9,6 @@ struct HomeView: View {
     @EnvironmentObject private var appState: AppState
     @StateObject private var vm = HomeViewModel()
 
-    // Keep anything non-view (like filtering/derivations) out of the ViewBuilder
     private var progressToNextTier: Double {
         let current = Double(appState.account.points)
         let target = Double(appState.account.nextTierPoints)

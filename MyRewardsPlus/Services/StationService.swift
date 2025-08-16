@@ -1,7 +1,7 @@
 //  StationService.swift
 //  MyRewardsPlus
 //
-//  Created by Samrudh S on 12/15/2024.
+//  Created by Samrudh S on 02/19/2025.
 //
 import Foundation
 import CoreLocation
@@ -12,7 +12,6 @@ protocol StationServiceType {
 
 struct StationService: StationServiceType {
     func nearbyStations(center: CLLocationCoordinate2D, radiusKm: Double) async throws -> [Station] {
-        // In a real app, call your backend. Here we filter sample stations by rough radius.
         try await Task.sleep(nanoseconds: 150_000_000)
         let all = SampleData.stations
         let R = radiusKm * 1000

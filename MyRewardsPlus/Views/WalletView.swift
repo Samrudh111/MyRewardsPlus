@@ -28,16 +28,13 @@ struct WalletView: View {
                     List(savedOffersList) { offer in
                         OfferRow(
                             offer: offer,
-                            // still show the state accurately (always true here, but harmless)
                             isSaved: appState.savedOffers.contains(offer.id)
                         ) {
-                            // Optimistic toggle so the row disappears immediately
                             withAnimation {
                                 appState.toggleSavedOffer(offer.id)
                             }
                         }
                     }
-                    // Key the list by the saved count to ensure refresh after toggles
                     .id(appState.savedOffersCount)
                     .listStyle(.insetGrouped)
                 }

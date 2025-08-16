@@ -1,7 +1,7 @@
-//  LocationCodable+Hashable.swift
+//  LocationCoordinate.swift
 //  MyRewardsPlus
 //
-//  Created by Samrudh S on 12/15/2024.
+//  Created by Samrudh S on 01/17/2025.
 //
 import Foundation
 import CoreLocation
