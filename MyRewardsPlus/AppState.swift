@@ -1,56 +1,43 @@
 //  AppState.swift
 //  MyRewardsPlus
 //
-//  Created by Samrudh S on 12/15/2024.
+//  Created by Samrudh S on 12/20/2024.
 //
+
 import SwiftUI
 import Combine
 
 final class AppState: ObservableObject {
-    // Sample account for UI; replace with profile fetch if desired
     @Published var account = RewardAccount.sample
 
     // Auth/session
     @Published var userId: String? = nil
     let auth: AuthServiceType = AuthService()
 
-    // Saved offers (local cache + remote sync)
+    // If you already have SavedOffersStore, keep it:
     let savedOffers = SavedOffersStore()
-    @Published private(set) var savedOffersCount: Int = 0  // convenient for .badge()
+    @Published private(set) var savedOffersCount: Int = 0
 
     private var cancellables = Set<AnyCancellable>()
 
     init() {
-        // Keep badge/count in sync and forward nested store changes
+        // Forward saved-offers changes for tab badge (optional)
         savedOffers.objectWillChange
             .sink { [weak self] _ in
-                guard let self else { return }
-                self.savedOffersCount = self.savedOffers.count
-                self.objectWillChange.send() // forward to views observing AppState
+                self?.savedOffersCount = self?.savedOffers.count ?? 0
+                self?.objectWillChange.send()
             }
             .store(in: &cancellables)
-
         savedOffersCount = savedOffers.count
 
-        // Listen for auth state changes and sync saved offers when signed in
+        // Listen to Firebase auth state
         auth.listen { [weak self] uid in
-            guard let self else { return }
-            Task { @MainActor in
-                self.userId = uid
-                if let uid {
-                    await self.savedOffers.syncFromRemote(userId: uid)
-                    self.savedOffersCount = self.savedOffers.count
-                }
-            }
+            Task { @MainActor in self?.userId = uid }
         }
     }
 
-    /// Toggle save state for an offer. Uses Firestore if signed in, local cache otherwise.
+    // Convenience for OfferRow buttons (local only in this simple setup)
     func toggleSavedOffer(_ id: UUID) {
-        if let uid = userId {
-            Task { await savedOffers.toggleRemote(userId: uid, offerId: id) }
-        } else {
-            savedOffers.toggle(id)
-        }
+        savedOffers.toggle(id)
     }
 }

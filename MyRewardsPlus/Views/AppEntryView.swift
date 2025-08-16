@@ -10,7 +10,7 @@ struct AppEntryView: View {
     var body: some View {
         Group {
             if appState.userId == nil {
-                RootTabView()
+                SignInView()
             } else {
                 RootTabView()
             }

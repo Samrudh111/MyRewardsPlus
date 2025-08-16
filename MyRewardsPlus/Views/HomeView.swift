@@ -40,7 +40,6 @@ struct HomeView: View {
                                 offer: offer,
                                 isSaved: appState.savedOffers.contains(offer.id)
                             ) {
-                                // Let AppState decide local vs remote toggle
                                 appState.toggleSavedOffer(offer.id)
                             }
                         }

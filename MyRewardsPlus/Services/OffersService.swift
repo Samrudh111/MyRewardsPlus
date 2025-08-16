@@ -1,15 +1,33 @@
 //  OffersService.swift
 //  MyRewardsPlus
 //
-//  Created by Samrudh S on 12/15/2024.
+//  Created by Samrudh S on 02/18/2024.
 //
+
 import Foundation
 
-protocol OffersServiceType { func fetchOffers() async throws -> [Offer] }
+protocol OffersServiceType {
+    func fetchOffers() async throws -> [Offer]
+}
 
 struct OffersService: OffersServiceType {
-    private let fs: FirestoreServiceType = FirestoreService()
+
+    // Set this to true if you want to force local-only during demos
+    private let ALWAYS_USE_LOCAL_OFFERS = false
+
     func fetchOffers() async throws -> [Offer] {
-        try await fs.fetchOffers()
+        if ALWAYS_USE_LOCAL_OFFERS {
+            return SampleData.offers
+        }
+
+        do {
+            let remote = try await FirestoreService().fetchOffers()
+            if !remote.isEmpty {
+                return remote
+            }
+        } catch {
+            // Ignore and fall back
+        }
+        return SampleData.offers
     }
 }

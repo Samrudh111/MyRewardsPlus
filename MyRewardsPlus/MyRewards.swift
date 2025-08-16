@@ -7,12 +7,12 @@ import SwiftUI
 
 @main
 struct MyRewards: App {
-    @UIApplicationDelegateAdaptor(FirebaseAppDelegate.self) var appDelegate
+    @UIApplicationDelegateAdaptor(FirebaseAppDelegate.self) var firebase
     @StateObject private var appState = AppState()
 
     var body: some Scene {
         WindowGroup {
-            AppEntryView()               // NEW: gate by auth state
+            AppEntryView()
                 .environmentObject(appState)
         }
     }

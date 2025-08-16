@@ -4,6 +4,7 @@
 //  Created by Samrudh S on 12/15/2024.
 //
 import SwiftUI
+import FirebaseAuth
 
 struct AccountView: View {
     @EnvironmentObject private var appState: AppState
@@ -17,8 +18,14 @@ struct AccountView: View {
                     HStack {
                         AvatarCircle(initials: initials(appState.account.memberName))
                         VStack(alignment: .leading) {
-                            Text(appState.account.memberName).bold()
-                            Text(appState.account.tier.rawValue + " Member").foregroundStyle(.secondary)
+                            if Auth.auth().currentUser?.isAnonymous == true {
+                                                            Text("Signed in as Guest")
+                                                                .font(.footnote)
+                                                                .foregroundStyle(.secondary)
+                                                        } else {
+                                                            Text(appState.account.memberName).bold()
+                                                            Text(appState.account.tier.rawValue + " Member").foregroundStyle(.secondary)
+                            }
                         }
                         Spacer()
                         Button { showQR = true } label: {
@@ -35,7 +42,9 @@ struct AccountView: View {
                 }
 
                 Section {
-                    Button(role: .destructive) { } label: { Text("Sign Out") }
+                    Button("Sign Out", role: .destructive) {
+                        try? appState.auth.signOut()
+                    }
                 }
             }
             .navigationTitle("Account")

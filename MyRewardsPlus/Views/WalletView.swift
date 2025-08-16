@@ -1,8 +1,9 @@
 //  WalletView.swift
 //  MyRewardsPlus
 //
-//  Created by Samrudh S on 12/15/2024.
+//  Created by Samrudh S on 12/18/2024.
 //
+
 import SwiftUI
 
 struct WalletView: View {
@@ -11,7 +12,7 @@ struct WalletView: View {
     @State private var loading = false
     let service: OffersServiceType = OffersService()
 
-    // Compute saved offers outside the view builder to avoid `buildExpression` errors.
+    // Filter saved offers based on current saved IDs
     private var savedOffersList: [Offer] {
         offers.filter { appState.savedOffers.contains($0.id) }
     }
@@ -25,14 +26,19 @@ struct WalletView: View {
                     EmptyState(text: "No saved offers yet.")
                 } else {
                     List(savedOffersList) { offer in
-                        OfferRow(offer: offer, isSaved: true) {
-                            if let uid = appState.userId {
-                                Task { await appState.savedOffers.toggleRemote(userId: uid, offerId: offer.id) }
-                            } else {
+                        OfferRow(
+                            offer: offer,
+                            // still show the state accurately (always true here, but harmless)
+                            isSaved: appState.savedOffers.contains(offer.id)
+                        ) {
+                            // Optimistic toggle so the row disappears immediately
+                            withAnimation {
                                 appState.toggleSavedOffer(offer.id)
                             }
                         }
                     }
+                    // Key the list by the saved count to ensure refresh after toggles
+                    .id(appState.savedOffersCount)
                     .listStyle(.insetGrouped)
                 }
             }
